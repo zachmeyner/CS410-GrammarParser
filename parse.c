@@ -61,9 +61,13 @@ int main(int argc, char* argv[]) {
 	}
 
 	if (parses == true) {
-		printf("Statement parses\n");
+		printf("\033[1;32m");
+		printf("Statement parses.\n");
+		printf("\033[0m");
 	} else {
-		printf("Statement does not parse\n");
+		printf("\033[1;31m"); 
+		printf("Statement does not parse.\n");
+		printf("\033[0m");
 	}
 
 	return 0;

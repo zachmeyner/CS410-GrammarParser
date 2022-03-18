@@ -1,3 +1,5 @@
+// Group: Zachary Meyner, Ryan Vaughn, Amelia Sigmund
+
 #include <stdio.h>
 #include <ctype.h>
 

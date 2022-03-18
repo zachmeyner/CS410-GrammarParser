@@ -38,6 +38,7 @@ void error();
 #define IDENT_B 12
 #define IDENT_C 13
 
+// This part was done by Zach
 
 int main(int argc, char* argv[]) {
 	if (argc != 2) {
@@ -90,6 +91,8 @@ int lookup(char ch) {
 	}
 }
 
+// This part was done by Ryan
+
 void addChar() {
 	if (lexLen <= 98) {
 		lexeme[lexLen++] = nextChar;
@@ -137,6 +140,8 @@ int lex() {
 	return nextToken;
 }
 
+
+// This part was done by Amelia
 
 // Parser for S Nonterminal
 // S -> A

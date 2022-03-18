@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <ctype.h>
 
+#define true 1
+#define false 0
+
 int charClass;
 char lexeme[100];
 char nextChar;
@@ -10,6 +13,7 @@ int lexLen;
 int token;
 int nextToken;
 FILE *in_fp, *fopen();
+int parses = true;
 
 //Functions
 void addChar();
@@ -18,26 +22,48 @@ void getNonBlank();
 int lex();
 int lookup(char ch);
 
+//Recursive Descent Functions
+void S();
+void A();
+void B();
+void C();
+void error();
+
+
 // Character Classes
 #define LETTER 0
-#define UNKNOWN 99
 
+// Identifiers for terminals
 #define IDENT_A 11
 #define IDENT_B 12
 #define IDENT_C 13
 
 
-
-
 int main(int argc, char* argv[]) {
-	if ((in_fp = fopen(argv[1], "r")) == NULL) {
-		printf("File does not exist");
-	} else {
-		getChar();
+	if (argc != 2) {
+		printf("USAGE:\n./parse [file]\n");
 	}
 
+	if (argc == 2){
+		if ((in_fp = fopen(argv[1], "r")) == NULL) {
+			printf("File does not exist.\n");
+		} else {
+			getChar();
+			/*
+			do {
+			lex();
+			} while (nextToken != EOF);
+			*/
+			lex();
+			S();
+		}
+	}
 
-
+	if (parses == true) {
+		printf("Statement parses\n");
+	} else {
+		printf("Statement does not parse\n");
+	}
 
 	return 0;
 }
@@ -77,8 +103,6 @@ void getChar() {
 	if ((nextChar = getc(in_fp)) != EOF) {
 		if (nextChar == 'a' || nextChar == 'b' || nextChar == 'c') {
 			charClass = LETTER;
-		} else {
-			charClass = UNKNOWN;
 		}
 	} else {
 		charClass = EOF;
@@ -100,9 +124,6 @@ int lex() {
 			lookup(nextChar);
 			getChar();
 			break;
-		case UNKNOWN:
-			error();
-			break;
 		case EOF:
 			nextToken = EOF;
 			lexeme[0] = 'E';
@@ -114,4 +135,76 @@ int lex() {
 	
 	printf("Next token is %d, next lexeme is %s\n", nextToken, lexeme);
 	return nextToken;
+}
+
+
+// Parser for S Nonterminal
+// S -> A
+void S() {
+	printf("Enter S\n");
+	A();
+	printf("Exit S\n");
+}
+
+
+// Parser for A Nonterminal
+// A -> a | aA | B
+void A() {
+	printf("Enter A\n");
+
+	if (nextToken == IDENT_A) {
+		lex();
+
+		if (nextToken != EOF) {
+			A();
+		}
+	} else {
+		B();
+	}
+}
+
+// Parser for B Nonterminal
+// B -> b | bbB | C
+void B() {
+	printf("Enter C\n");
+
+	if (nextToken == IDENT_B) {
+		lex();
+
+		if (nextToken == IDENT_B) {
+			lex();
+			B();
+		}
+	} else {
+		C();
+	}
+
+	printf("Exit B\n");
+}
+
+// Parser for C Nonterminal
+// C -> cc | cCc
+void C() {
+	printf("Enter C\n");
+
+	if (nextToken == IDENT_C) {
+		int totalC = 0;
+
+		while (nextToken == IDENT_C) {
+			totalC++;
+			lex();
+		}
+
+		if (totalC % 2 != 0) {
+			error();
+		}
+	} else {
+		error();
+	}
+
+	printf("Exit C\n");
+}
+
+void error() {
+	parses = false;
 }

@@ -170,12 +170,14 @@ void A() {
 	} else {
 		B();
 	}
+
+	printf("Exit A\n");
 }
 
 // Parser for B Nonterminal
 // B -> b | bbB | C
 void B() {
-	printf("Enter C\n");
+	printf("Enter B\n");
 
 	if (nextToken == IDENT_B) {
 		lex();

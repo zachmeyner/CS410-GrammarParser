@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	if (started){
+	if (started) {
 		if (parses) {
 			printf("\033[1;32m");
 			printf("Statement parses.\n");

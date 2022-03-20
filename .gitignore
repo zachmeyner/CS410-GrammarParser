@@ -45,3 +45,6 @@
 parse
 /.vscode
 *.in
+
+*.tar
+*.gz

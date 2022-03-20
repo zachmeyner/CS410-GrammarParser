@@ -45,10 +45,13 @@ int main(int argc, char* argv[]) {
 		printf("USAGE:\n./parse [file]\n");
 	}
 
+	int started = false;
+
 	if (argc == 2){
 		if ((in_fp = fopen(argv[1], "r")) == NULL) {
 			printf("File does not exist.\n");
 		} else {
+			started = true;
 			getChar();
 			/*
 			do {
@@ -60,14 +63,16 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	if (parses == true) {
-		printf("\033[1;32m");
-		printf("Statement parses.\n");
-		printf("\033[0m");
-	} else {
-		printf("\033[1;31m"); 
-		printf("Statement does not parse.\n");
-		printf("\033[0m");
+	if (started){
+		if (parses) {
+			printf("\033[1;32m");
+			printf("Statement parses.\n");
+			printf("\033[0m");
+		} else {
+			printf("\033[1;31m"); 
+			printf("Statement does not parse.\n");
+			printf("\033[0m");
+		}
 	}
 
 	return 0;

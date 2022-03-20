@@ -93,6 +93,8 @@ int lookup(char ch) {
 			nextToken = EOF;
 			break;
 	}
+
+	return nextToken;
 }
 
 // This part was done by Ryan
